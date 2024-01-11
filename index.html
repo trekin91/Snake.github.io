@@ -43,7 +43,9 @@
 
         function drawFood() {
             context.fillStyle = 'yellow';
-            context.fillRect(foodX, foodY, size, size);
+            context.beginPath();
+            context.arc(foodX + size / 2, foodY + size / 2, size / 2, 0, 2 * Math.PI);
+            context.fill();
         }
 
         function createFood() {
@@ -54,7 +56,9 @@
         function drawSnake() {
             snake.forEach(snakePart => {
                 context.fillStyle = 'green';
-                context.fillRect(snakePart.x, snakePart.y, size, size);
+                context.beginPath();
+                context.arc(snakePart.x + size / 2, snakePart.y + size / 2, size / 2, 0, 2 * Math.PI);
+                context.fill();
             });
         }
 
@@ -82,7 +86,9 @@
 
             const head = { x: headX, y: headY };
             snake.unshift(head);
-            snake.pop();
+            if (!(snake[0].x === foodX && snake[0].y === foodY)) {
+                snake.pop();
+            }
 
             checkFoodCollision();
 
