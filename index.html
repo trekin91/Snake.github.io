@@ -53,12 +53,27 @@
             foodY = randomFood(0, gameAreaHeight - size);
         }
 
+        function drawSnakeEye(x, y) {
+            context.fillStyle = 'black';
+            context.beginPath();
+            context.arc(x, y, size / 8, 0, 2 * Math.PI);
+            context.fill();
+        }
+
         function drawSnake() {
-            snake.forEach(snakePart => {
-                context.fillStyle = 'green';
+            snake.forEach((snakePart, index) => {
+                context.fillStyle = index === 0 ? 'darkgreen' : 'green';
                 context.beginPath();
                 context.arc(snakePart.x + size / 2, snakePart.y + size / 2, size / 2, 0, 2 * Math.PI);
                 context.fill();
+
+                // Dessiner les yeux sur la tête du serpent
+                if (index === 0) {
+                    const eyeDistance = size / 4;
+                    const eyeOffset = size / 3;
+                    drawSnakeEye(snakePart.x + eyeDistance, snakePart.y + eyeOffset);
+                    drawSnakeEye(snakePart.x + size - eyeDistance, snakePart.y + eyeOffset);
+                }
             });
         }
 
