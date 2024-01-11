@@ -53,14 +53,29 @@
             foodY = randomFood(0, gameAreaHeight - size);
         }
 
-        function drawSnakeEye(x, y) {
+        function drawSnakeEye(x, y, offset) {
             context.fillStyle = 'black';
             context.beginPath();
-            context.arc(x, y, size / 8, 0, 2 * Math.PI);
+            context.arc(x + offset.x, y + offset.y, size / 8, 0, 2 * Math.PI);
             context.fill();
         }
 
+        function getEyeOffsets() {
+            const distance = size / 6;
+            const offset = size / 3;
+            if (dx === 0 && dy === -size) { // Up
+                return [{ x: -distance, y: -offset }, { x: distance, y: -offset }];
+            } else if (dx === 0 && dy === size) { // Down
+                return [{ x: -distance, y: offset }, { x: distance, y: offset }];
+            } else if (dx === -size && dy === 0) { // Left
+                return [{ x: -offset, y: -distance }, { x: -offset, y: distance }];
+            } else if (dx === size && dy === 0) { // Right
+                return [{ x: offset, y: -distance }, { x: offset, y: distance }];
+            }
+        }
+
         function drawSnake() {
+            const eyeOffsets = getEyeOffsets();
             snake.forEach((snakePart, index) => {
                 context.fillStyle = index === 0 ? 'darkgreen' : 'green';
                 context.beginPath();
@@ -68,11 +83,9 @@
                 context.fill();
 
                 // Dessiner les yeux sur la tête du serpent
-                if (index === 0) {
-                    const eyeDistance = size / 4;
-                    const eyeOffset = size / 3;
-                    drawSnakeEye(snakePart.x + eyeDistance, snakePart.y + eyeOffset);
-                    drawSnakeEye(snakePart.x + size - eyeDistance, snakePart.y + eyeOffset);
+                if (index === 0 && eyeOffsets) {
+                    drawSnakeEye(snakePart.x + size / 2, snakePart.y + size / 2, eyeOffsets[0]);
+                    drawSnakeEye(snakePart.x + size / 2, snakePart.y + size / 2, eyeOffsets[1]);
                 }
             });
         }
