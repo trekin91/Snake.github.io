@@ -12,11 +12,32 @@ function drawSnake() {
     });
 }
 
+const gameAreaWidth = 400;
+const gameAreaHeight = 400;
+
 function update() {
     context.clearRect(0, 0, gameArea.width, gameArea.height);
+
+    // Calculer la nouvelle position de la tête
     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+    // Traverser les bords
+    if (head.x >= gameAreaWidth) {
+        head.x = 0;
+    } else if (head.x < 0) {
+        head.x = gameAreaWidth - size;
+    }
+
+    if (head.y >= gameAreaHeight) {
+        head.y = 0;
+    } else if (head.y < 0) {
+        head.y = gameAreaHeight - size;
+    }
+
+    // Ajouter la nouvelle tête et enlever la queue
     snake.unshift(head);
     snake.pop();
+
     drawSnake();
 }
 
