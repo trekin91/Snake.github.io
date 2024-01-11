@@ -48,15 +48,21 @@
         let dx = size, dy = 0;
         let foodX, foodY;
 
+        const snakeHeadImg = new Image();
+        snakeHeadImg.src = 'tete-serpent.png';
+
+        const snakeBodyImg = new Image();
+        snakeBodyImg.src = 'corp-serpent.png';
+
+        const appleImg = new Image();
+        appleImg.src = 'pomme.png';
+
         function randomFood(min, max) {
             return Math.round((Math.random() * (max-min) + min) / size) * size;
         }
 
         function drawFood() {
-            context.fillStyle = 'yellow';
-            context.beginPath();
-            context.arc(foodX + size / 2, foodY + size / 2, size / 2, 0, 2 * Math.PI);
-            context.fill();
+            context.drawImage(appleImg, foodX, foodY, size, size);
         }
 
         function createFood() {
@@ -64,40 +70,10 @@
             foodY = randomFood(0, gameAreaHeight - size);
         }
 
-        function drawSnakeEye(x, y, offset) {
-            context.fillStyle = 'black';
-            context.beginPath();
-            context.arc(x + offset.x, y + offset.y, size / 8, 0, 2 * Math.PI);
-            context.fill();
-        }
-
-        function getEyeOffsets() {
-            const distance = size / 6;
-            const offset = size / 3;
-            if (dx === 0 && dy === -size) { // Up
-                return [{ x: -distance, y: -offset }, { x: distance, y: -offset }];
-            } else if (dx === 0 && dy === size) { // Down
-                return [{ x: -distance, y: offset }, { x: distance, y: offset }];
-            } else if (dx === -size && dy === 0) { // Left
-                return [{ x: -offset, y: -distance }, { x: -offset, y: distance }];
-            } else if (dx === size && dy === 0) { // Right
-                return [{ x: offset, y: -distance }, { x: offset, y: distance }];
-            }
-        }
-
         function drawSnake() {
-            const eyeOffsets = getEyeOffsets();
             snake.forEach((snakePart, index) => {
-                context.fillStyle = index === 0 ? 'darkgreen' : 'green';
-                context.beginPath();
-                context.arc(snakePart.x + size / 2, snakePart.y + size / 2, size / 2, 0, 2 * Math.PI);
-                context.fill();
-
-                // Dessiner les yeux sur la tête du serpent
-                if (index === 0 && eyeOffsets) {
-                    drawSnakeEye(snakePart.x + size / 2, snakePart.y + size / 2, eyeOffsets[0]);
-                    drawSnakeEye(snakePart.x + size / 2, snakePart.y + size / 2, eyeOffsets[1]);
-                }
+                const img = index === 0 ? snakeHeadImg : snakeBodyImg;
+                context.drawImage(img, snakePart.x, snakePart.y, size, size);
             });
         }
 
