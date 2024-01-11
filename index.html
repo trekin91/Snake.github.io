@@ -35,6 +35,21 @@
         const gameAreaHeight = 400;
         let snake = [{ x: 200, y: 200 }];
         let dx = size, dy = 0;
+        let foodX, foodY;
+
+        function randomFood(min, max) {
+            return Math.round((Math.random() * (max-min) + min) / size) * size;
+        }
+
+        function drawFood() {
+            context.fillStyle = 'yellow';
+            context.fillRect(foodX, foodY, size, size);
+        }
+
+        function createFood() {
+            foodX = randomFood(0, gameAreaWidth - size);
+            foodY = randomFood(0, gameAreaHeight - size);
+        }
 
         function drawSnake() {
             snake.forEach(snakePart => {
@@ -52,6 +67,13 @@
             return position;
         }
 
+        function checkFoodCollision() {
+            if (snake[0].x === foodX && snake[0].y === foodY) {
+                snake.push({ x: foodX, y: foodY });
+                createFood();
+            }
+        }
+
         function update() {
             context.clearRect(0, 0, gameAreaWidth, gameAreaHeight);
 
@@ -62,9 +84,13 @@
             snake.unshift(head);
             snake.pop();
 
+            checkFoodCollision();
+
             drawSnake();
+            drawFood();
         }
 
+        createFood();
         setInterval(update, 100);
 
         document.getElementById('upButton').addEventListener('click', function() { dx = 0; dy = -size; });
