@@ -13,17 +13,28 @@
             height: 50px;
         }
         #controlPanel {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-top: 20px;
+        }
+        #verticalButtons {
+            display: flex;
+            flex-direction: column;
+        }
+        #leftButton, #rightButton {
+            margin: 0 20px;
         }
     </style>
 </head>
 <body>
     <canvas id="gameArea" width="400" height="400"></canvas>
     <div id="controlPanel">
-        <button id="upButton" class="button">Haut</button>
-        <button id="downButton" class="button">Bas</button>
         <button id="leftButton" class="button">Gauche</button>
+        <div id="verticalButtons">
+            <button id="upButton" class="button">Haut</button>
+            <button id="downButton" class="button">Bas</button>
+        </div>
         <button id="rightButton" class="button">Droite</button>
     </div>
 
