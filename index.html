@@ -41,7 +41,7 @@
     <script>
         const gameArea = document.getElementById('gameArea');
         const context = gameArea.getContext('2d');
-        const size = 30;  // Taille augmentée à 30x30 pixels
+        const size = 30;
         const gameAreaWidth = 400;
         const gameAreaHeight = 400;
         let snake = [{ x: 200, y: 200 }];
@@ -52,13 +52,13 @@
         snakeHeadImg.src = 'tete-serpent.png';
 
         const snakeBodyImg = new Image();
-        snakeBodyImg.src = 'corps-serpent.png';  // Nom corrigé
+        snakeBodyImg.src = 'corps-serpent.png';
 
         const appleImg = new Image();
         appleImg.src = 'pomme.png';
 
         function randomFood(min, max) {
-            return Math.round((Math.random() * (max-min) + min) / size) * size;
+            return Math.round((Math.random() * (max - min) + min) / size) * size;
         }
 
         function drawFood() {
@@ -72,8 +72,21 @@
 
         function drawSnake() {
             snake.forEach((snakePart, index) => {
-                const img = index === 0 ? snakeHeadImg : snakeBodyImg;
-                context.drawImage(img, snakePart.x, snakePart.y, size, size);
+                context.save();
+                if (index === 0) {
+                    let angle = 0;
+                    if (dx === size) angle = 90;
+                    else if (dx === -size) angle = -90;
+                    else if (dy === -size) angle = 0;
+                    else if (dy === size) angle = 180;
+
+                    context.translate(snakePart.x + size / 2, snakePart.y + size / 2);
+                    context.rotate(angle * Math.PI / 180);
+                    context.drawImage(snakeHeadImg, -size / 2, -size / 2, size, size);
+                } else {
+                    context.drawImage(snakeBodyImg, snakePart.x, snakePart.y, size, size);
+                }
+                context.restore();
             });
         }
 
@@ -97,8 +110,11 @@
         function update() {
             context.clearRect(0, 0, gameAreaWidth, gameAreaHeight);
 
-            let headX = wrapPosition(snake[0].x + dx, gameAreaWidth);
-            let headY = wrapPosition(snake[0].y + dy, gameAreaHeight);
+            let headX = snake[0].x + dx;
+            let headY = snake[0].y + dy;
+
+            headX = wrapPosition(headX, gameAreaWidth);
+            headY = wrapPosition(headY, gameAreaHeight);
 
             const head = { x: headX, y: headY };
             snake.unshift(head);
