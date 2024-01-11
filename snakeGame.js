@@ -14,27 +14,26 @@ function drawSnake() {
 
 const gameAreaWidth = 400;
 const gameAreaHeight = 400;
+const size = 20;
+let snake = [{ x: 200, y: 200 }];
+let dx = size, dy = 0;
+
+function wrapPosition(position, max) {
+    if (position < 0) {
+        return max - size;
+    } else if (position >= max) {
+        return 0;
+    }
+    return position;
+}
 
 function update() {
-    context.clearRect(0, 0, gameArea.width, gameArea.height);
+    context.clearRect(0, 0, gameAreaWidth, gameAreaHeight);
 
-    // Calculer la nouvelle position de la tête
-    const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+    let headX = wrapPosition(snake[0].x + dx, gameAreaWidth);
+    let headY = wrapPosition(snake[0].y + dy, gameAreaHeight);
 
-    // Traverser les bords
-    if (head.x >= gameAreaWidth) {
-        head.x = 0;
-    } else if (head.x < 0) {
-        head.x = gameAreaWidth - size;
-    }
-
-    if (head.y >= gameAreaHeight) {
-        head.y = 0;
-    } else if (head.y < 0) {
-        head.y = gameAreaHeight - size;
-    }
-
-    // Ajouter la nouvelle tête et enlever la queue
+    const head = { x: headX, y: headY };
     snake.unshift(head);
     snake.pop();
 
@@ -47,3 +46,4 @@ document.getElementById('upButton').addEventListener('click', function() { dx = 
 document.getElementById('downButton').addEventListener('click', function() { dx = 0; dy = size; });
 document.getElementById('leftButton').addEventListener('click', function() { dx = -size; dy = 0; });
 document.getElementById('rightButton').addEventListener('click', function() { dx = size; dy = 0; });
+
