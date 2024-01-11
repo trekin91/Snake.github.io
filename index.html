@@ -41,7 +41,7 @@
     <script>
         const gameArea = document.getElementById('gameArea');
         const context = gameArea.getContext('2d');
-        const size = 20;
+        const size = 30;  // Taille augmentée à 30x30 pixels
         const gameAreaWidth = 400;
         const gameAreaHeight = 400;
         let snake = [{ x: 200, y: 200 }];
@@ -52,7 +52,7 @@
         snakeHeadImg.src = 'tete-serpent.png';
 
         const snakeBodyImg = new Image();
-        snakeBodyImg.src = 'corps-serpent.png';
+        snakeBodyImg.src = 'corps-serpent.png';  // Nom corrigé
 
         const appleImg = new Image();
         appleImg.src = 'pomme.png';
