@@ -1,1 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jeu de Serpent</title>
+    <style>
+        #gameArea {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+            position: relative;
+        }
+        .button {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+        }
+        #upButton { top: 420px; left: 175px; }
+        #downButton { top: 520px; left: 175px; }
+        #leftButton { top: 470px; left: 125px; }
+        #rightButton { top: 470px; left: 225px; }
+    </style>
+</head>
+<body>
+    <div id="gameArea"></div>
+    <button id="upButton" class="button">Haut</button>
+    <button id="downButton" class="button">Bas</button>
+    <button id="leftButton" class="button">Gauche</button>
+    <button id="rightButton" class="button">Droite</button>
 
+    <script src="snakeGame.js"></script>
+</body>
+</html>
