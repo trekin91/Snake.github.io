@@ -101,7 +101,6 @@
 
         function checkFoodCollision() {
             if (snake[0].x === foodX && snake[0].y === foodY) {
-                snake.unshift({ x: foodX, y: foodY }); // Ajoute un nouveau segment sans retirer le dernier
                 createFood();
                 return true;
             }
@@ -116,6 +115,7 @@
 
             const head = { x: headX, y: headY };
             snake.unshift(head);
+
             if (!checkFoodCollision()) {
                 snake.pop();
             }
